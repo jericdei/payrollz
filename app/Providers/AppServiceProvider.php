@@ -26,12 +26,39 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url): void
     {
+        $this->fixNeonEndpointId();
         $this->fixPgsqlOptions();
         $this->configureDefaults();
 
         if (env('APP_ENV') === 'production') {
             $url->forceScheme('https');
         }
+    }
+
+    /**
+     * Add Neon endpoint ID to DB_URL for environments (e.g. Vercel) with older libpq
+     * that lacks SNI support. Required by Neon to route connections.
+     */
+    protected function fixNeonEndpointId(): void
+    {
+        $url = Config::get('database.connections.pgsql.url');
+
+        if (! $url || ! str_contains($url, 'neon.tech') || str_contains($url, 'options=endpoint')) {
+            return;
+        }
+
+        $parsed = parse_url($url);
+        $host = $parsed['host'] ?? null;
+
+        if (! $host) {
+            return;
+        }
+
+        $endpointId = explode('.', $host, 2)[0];
+        $separator = isset($parsed['query']) ? '&' : '?';
+        $options = 'options=endpoint%3D'.urlencode($endpointId);
+
+        Config::set('database.connections.pgsql.url', $url.$separator.$options);
     }
 
     /**
