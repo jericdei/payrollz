@@ -29,6 +29,7 @@
     "SESSION_DRIVER": "array",
     "VIEW_COMPILED_PATH": "/tmp/views",
     "SSR_TEMP_PATH": "/tmp/ssr",
-    "NODE_PATH": "node"
+    "NODE_PATH": "node",
+    "VERCEL_FORCE_NO_BUILD_CACHE": "1"
   }
 }
