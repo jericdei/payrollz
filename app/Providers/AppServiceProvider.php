@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Pdo\Pgsql;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,10 +26,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url): void
     {
+        $this->fixPgsqlOptions();
         $this->configureDefaults();
 
         if (env('APP_ENV') === 'production') {
             $url->forceScheme('https');
+        }
+    }
+
+    /**
+     * Ensure pgsql options is always an array. DB_URL query params (e.g. ?options=...)
+     * can overwrite our config with a string, causing array_diff_key() to fail.
+     */
+    protected function fixPgsqlOptions(): void
+    {
+        $options = Config::get('database.connections.pgsql.options');
+
+        if (! is_array($options)) {
+            Config::set('database.connections.pgsql.options', [
+                Pgsql::ATTR_DISABLE_PREPARES => true,
+            ]);
+        } elseif (! isset($options[Pgsql::ATTR_DISABLE_PREPARES])) {
+            Config::set('database.connections.pgsql.options', $options + [
+                Pgsql::ATTR_DISABLE_PREPARES => true,
+            ]);
         }
     }
 
