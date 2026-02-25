@@ -86,6 +86,9 @@
     ],
     "pre-package-uninstall": [
       "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+    ],
+    "vercel": [
+      "npm ci && npm run build"
     ]
   },
   "extra": {
