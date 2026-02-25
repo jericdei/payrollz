@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "/api/index.php", "use": "vercel-php@0.9.0" },
-    { "src": "/public/**", "use": "@vercel/static" }
-  ],
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.9.0"
+    }
+  },
   "routes": [
     {
       "src": "/build/(.*)",
@@ -18,6 +19,7 @@
       "dest": "/api/index.php"
     }
   ],
+  "outputDirectory": "public",
   "env": {
     "APP_NAME": "Payrollz",
     "APP_ENV": "production",
