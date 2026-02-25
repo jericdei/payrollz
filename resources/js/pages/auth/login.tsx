@@ -59,7 +59,7 @@ export default function Login() {
                 onChange={(e) => setData('email', e.target.value)}
                 autoComplete="email"
                 autoFocus
-                className="w-full rounded-lg border border-[#d4d4d1] bg-white px-4 py-2.5 text-[#1a1a18] placeholder-[#9a9a97] focus:border-[#1a1a18] focus:outline-none focus:ring-1 focus:ring-[#1a1a18] dark:border-[#3a3a38] dark:bg-[#161615] dark:placeholder-[#6b6b68] dark:focus:border-[#e8e8e6] dark:focus:ring-[#e8e8e6]"
+                className="w-full rounded-lg border border-[#d4d4d1] bg-white px-4 py-2.5 text-[#1a1a18] placeholder-[#9a9a97] focus:border-[#1a1a18] focus:outline-none focus:ring-1 focus:ring-[#1a1a18] dark:border-[#3a3a38] dark:bg-[#161615] dark:text-[#e8e8e6] dark:placeholder-[#6b6b68] dark:focus:border-[#e8e8e6] dark:focus:ring-[#e8e8e6]"
                 placeholder="you@example.com"
               />
               {errors.email && (
@@ -82,7 +82,7 @@ export default function Login() {
                 value={data.password}
                 onChange={(e) => setData('password', e.target.value)}
                 autoComplete="current-password"
-                className="w-full rounded-lg border border-[#d4d4d1] bg-white px-4 py-2.5 text-[#1a1a18] placeholder-[#9a9a97] focus:border-[#1a1a18] focus:outline-none focus:ring-1 focus:ring-[#1a1a18] dark:border-[#3a3a38] dark:bg-[#161615] dark:placeholder-[#6b6b68] dark:focus:border-[#e8e8e6] dark:focus:ring-[#e8e8e6]"
+                className="w-full rounded-lg border border-[#d4d4d1] bg-white px-4 py-2.5 text-[#1a1a18] placeholder-[#9a9a97] focus:border-[#1a1a18] focus:outline-none focus:ring-1 focus:ring-[#1a1a18] dark:border-[#3a3a38] dark:bg-[#161615] dark:text-[#e8e8e6] dark:placeholder-[#6b6b68] dark:focus:border-[#e8e8e6] dark:focus:ring-[#e8e8e6]"
                 placeholder="••••••••"
               />
               {errors.password && (

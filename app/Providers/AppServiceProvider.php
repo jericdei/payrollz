@@ -26,12 +26,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url): void
     {
-        $this->fixNeonEndpointId();
         $this->fixPgsqlOptions();
         $this->configureDefaults();
 
         if (env('APP_ENV') === 'production') {
             $url->forceScheme('https');
+            $this->fixNeonEndpointId();
         }
     }
 
