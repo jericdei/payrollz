@@ -37,28 +37,36 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Add Neon endpoint ID to DB_URL for environments (e.g. Vercel) with older libpq
-     * that lacks SNI support. Required by Neon to route connections.
+     * that lacks SNI support. Uses the password-based workaround to avoid colliding
+     * with Laravel's PDO options array (which expects ?options= to be an array).
      */
     protected function fixNeonEndpointId(): void
     {
         $url = Config::get('database.connections.pgsql.url');
 
-        if (! $url || ! str_contains($url, 'neon.tech') || str_contains($url, 'options=endpoint')) {
+        if (! $url || ! str_contains($url, 'neon.tech') || str_contains($url, 'endpoint=')) {
             return;
         }
 
         $parsed = parse_url($url);
         $host = $parsed['host'] ?? null;
+        $user = $parsed['user'] ?? '';
+        $pass = $parsed['pass'] ?? '';
 
-        if (! $host) {
+        if (! $host || ! $pass) {
             return;
         }
 
         $endpointId = explode('.', $host, 2)[0];
-        $separator = isset($parsed['query']) ? '&' : '?';
-        $options = 'options=endpoint%3D'.urlencode($endpointId);
+        $passWithEndpoint = 'endpoint='.$endpointId.';'.$pass;
 
-        Config::set('database.connections.pgsql.url', $url.$separator.$options);
+        $scheme = $parsed['scheme'] ?? 'postgresql';
+        $port = isset($parsed['port']) ? ':'.$parsed['port'] : '';
+        $path = $parsed['path'] ?? '/';
+        $query = isset($parsed['query']) ? '?'.$parsed['query'] : '';
+        $newUrl = $scheme.'://'.$user.':'.rawurlencode($passWithEndpoint).'@'.$host.$port.$path.$query;
+
+        Config::set('database.connections.pgsql.url', $newUrl);
     }
 
     /**
