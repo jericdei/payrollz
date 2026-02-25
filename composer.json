@@ -86,9 +86,6 @@
     ],
     "pre-package-uninstall": [
       "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
-    ],
-    "vercel": [
-      "pnpm ci && pnpm run build"
     ]
   },
   "extra": {
