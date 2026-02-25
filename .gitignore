@@ -4,9 +4,7 @@
 /public/build
 /public/hot
 /public/storage
-/resources/js/actions
-/resources/js/routes
-/resources/js/wayfinder
+# Wayfinder-generated files committed for Vercel (no PHP at build time). Regenerate: php artisan wayfinder:generate --with-form
 /storage/*.key
 /storage/pail
 /vendor

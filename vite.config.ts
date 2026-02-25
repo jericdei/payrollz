@@ -17,9 +17,14 @@ export default defineConfig({
             },
         }),
         tailwindcss(),
-        wayfinder({
-            formVariants: true,
-        }),
+        // Skip Wayfinder plugin on Vercel—PHP isn't available; use pre-generated files
+        ...(process.env.VERCEL !== '1'
+            ? [
+                  wayfinder({
+                      formVariants: true,
+                  }),
+              ]
+            : []),
     ],
     esbuild: {
         jsx: 'automatic',
