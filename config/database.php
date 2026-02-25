@@ -97,6 +97,11 @@ return [
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
+            // Required for Neon/PgBouncer: disables prepared statements to avoid
+            // "cached plan must not change result type" after schema changes
+            'options' => extension_loaded('pdo_pgsql')
+                ? [PDO::PGSQL_ATTR_DISABLE_PREPARES => true]
+                : [],
         ],
 
         'sqlsrv' => [

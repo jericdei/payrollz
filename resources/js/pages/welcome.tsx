@@ -1,6 +1,9 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 
 export default function Welcome() {
+  const { auth } = usePage().props as { auth: { user?: { name: string } } };
+  const isLoggedIn = !!auth?.user;
+
   return (
     <>
       <Head title="Payrollz — Simple Payroll for Modern Teams">
@@ -17,10 +20,10 @@ export default function Welcome() {
               Payrollz
             </span>
             <Link
-              href="/login"
+              href={isLoggedIn ? '/dashboard' : '/login'}
               className="rounded-lg border border-[#1a1a18] bg-[#1a1a18] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#2a2a28] dark:border-[#e8e8e6] dark:bg-[#e8e8e6] dark:text-[#0c0c0b] dark:hover:bg-white"
             >
-              Login
+              {isLoggedIn ? 'Dashboard' : 'Login'}
             </Link>
           </div>
         </header>
@@ -35,10 +38,10 @@ export default function Welcome() {
               for small teams who want to spend less time on paperwork.
             </p>
             <Link
-              href="/login"
+              href={isLoggedIn ? '/dashboard' : '/login'}
               className="inline-block rounded-lg bg-[#1a1a18] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#2a2a28] dark:bg-white dark:text-[#0c0c0b] dark:hover:bg-[#e8e8e6]"
             >
-              Login
+              {isLoggedIn ? 'Dashboard' : 'Login'}
             </Link>
           </section>
 
@@ -125,13 +128,15 @@ export default function Welcome() {
                 Ready to simplify payroll?
               </h2>
               <p className="mb-8 text-[#a1a19a]">
-                Sign in to your account to get started.
+                {isLoggedIn
+                  ? 'Go to your dashboard to get started.'
+                  : 'Sign in to your account to get started.'}
               </p>
               <Link
-                href="/login"
+                href={isLoggedIn ? '/dashboard' : '/login'}
                 className="inline-block rounded-lg bg-white px-6 py-3 text-sm font-medium text-[#1a1a18] transition hover:bg-[#e8e8e6]"
               >
-                Login
+                {isLoggedIn ? 'Dashboard' : 'Login'}
               </Link>
             </div>
           </section>
