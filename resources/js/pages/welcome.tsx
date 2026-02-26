@@ -30,12 +30,12 @@ export default function Welcome() {
 
         <main>
           <section className="mx-auto max-w-5xl px-6 py-20 lg:py-28">
-            <h1 className="mb-4 text-4xl font-semibold tracking-tight text-[#1a1a18] dark:text-white sm:text-5xl">
+            <h1 className="mb-4 text-4xl font-semibold tracking-tight text-[#1a1a18] sm:text-5xl dark:text-white">
               Payroll that runs itself
             </h1>
             <p className="mb-10 max-w-xl text-lg text-[#5c5c59] dark:text-[#a1a19a]">
-              Run payroll, track time, and stay compliant—all in one place. Built
-              for small teams who want to spend less time on paperwork.
+              Run payroll, track time, and stay compliant—all in one place.
+              Built for small teams who want to spend less time on paperwork.
             </p>
             <Link
               href={isLoggedIn ? '/dashboard' : '/login'}

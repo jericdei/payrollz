@@ -26,7 +26,9 @@ class EmployeeController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('employees/create');
+        return Inertia::render('employees/create', [
+            'old' => old(),
+        ]);
     }
 
     public function store(StoreEmployeeRequest $request): RedirectResponse

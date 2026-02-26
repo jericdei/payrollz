@@ -1,8 +1,12 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import DashboardLayout from '@/layouts/DashboardLayout';
+import { Button } from '@/components/ui/button';
+import { InputField, TextareaField, SelectField } from '@/components/form';
 
-const inputClass =
-  'w-full rounded-lg border border-[#d4d4d1] bg-white px-4 py-2.5 text-[#1a1a18] placeholder-[#9a9a97] focus:border-[#1a1a18] focus:outline-none focus:ring-1 focus:ring-[#1a1a18] dark:border-[#3a3a38] dark:bg-[#161615] dark:text-[#e8e8e6] dark:placeholder-[#6b6b68] dark:focus:border-[#e8e8e6] dark:focus:ring-[#e8e8e6]';
+const STATUS_OPTIONS = [
+  { value: 'active', label: 'Active' },
+  { value: 'inactive', label: 'Inactive' },
+];
 
 interface Employee {
   id: string;
@@ -42,12 +46,14 @@ export default function Edit({ employee }: { employee: Employee }) {
 
   return (
     <>
-      <Head title={`Edit ${employee.first_name} ${employee.last_name} — Payrollz`} />
+      <Head
+        title={`Edit ${employee.first_name} ${employee.last_name} — Payrollz`}
+      />
       <DashboardLayout>
         <div className="mb-8 flex items-center gap-4">
           <Link
             href="/employees"
-            className="text-sm text-[#5c5c59] hover:text-[#1a1a18] dark:text-[#a1a19a] dark:hover:text-white"
+            className="text-sm text-muted-foreground hover:text-foreground"
           >
             ← Employees
           </Link>
@@ -58,175 +64,101 @@ export default function Edit({ employee }: { employee: Employee }) {
 
         <form onSubmit={submit} className="max-w-xl space-y-5">
           <div className="grid gap-5 sm:grid-cols-2">
-            <div>
-              <label htmlFor="first_name" className="mb-1.5 block text-sm font-medium">
-                First name
-              </label>
-              <input
-                id="first_name"
-                type="text"
-                value={data.first_name}
-                onChange={(e) => setData('first_name', e.target.value)}
-                className={inputClass}
-                placeholder="Jane"
-              />
-              {errors.first_name && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.first_name}</p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="last_name" className="mb-1.5 block text-sm font-medium">
-                Last name
-              </label>
-              <input
-                id="last_name"
-                type="text"
-                value={data.last_name}
-                onChange={(e) => setData('last_name', e.target.value)}
-                className={inputClass}
-                placeholder="Doe"
-              />
-              {errors.last_name && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.last_name}</p>
-              )}
-            </div>
+            <InputField
+              label="First name"
+              name="first_name"
+              value={data.first_name}
+              onChange={(v) => setData('first_name', v)}
+              error={errors.first_name}
+              placeholder="Jane"
+            />
+            <InputField
+              label="Last name"
+              name="last_name"
+              value={data.last_name}
+              onChange={(v) => setData('last_name', v)}
+              error={errors.last_name}
+              placeholder="Doe"
+            />
           </div>
 
-          <div>
-            <label htmlFor="email" className="mb-1.5 block text-sm font-medium">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={data.email}
-              onChange={(e) => setData('email', e.target.value)}
-              className={inputClass}
-              placeholder="jane@example.com"
-            />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>
-            )}
-          </div>
+          <InputField
+            label="Email"
+            name="email"
+            type="email"
+            value={data.email}
+            onChange={(v) => setData('email', v)}
+            error={errors.email}
+            placeholder="jane@example.com"
+          />
 
-          <div>
-            <label htmlFor="phone" className="mb-1.5 block text-sm font-medium">
-              Phone
-            </label>
-            <input
-              id="phone"
-              type="text"
-              value={data.phone}
-              onChange={(e) => setData('phone', e.target.value)}
-              className={inputClass}
-              placeholder="+1 555 000 0000"
-            />
-            {errors.phone && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.phone}</p>
-            )}
-          </div>
+          <InputField
+            label="Phone"
+            name="phone"
+            value={data.phone}
+            onChange={(v) => setData('phone', v)}
+            error={errors.phone}
+            placeholder="+1 555 000 0000"
+          />
 
-          <div>
-            <label htmlFor="address" className="mb-1.5 block text-sm font-medium">
-              Address
-            </label>
-            <textarea
-              id="address"
-              rows={2}
-              value={data.address}
-              onChange={(e) => setData('address', e.target.value)}
-              className={inputClass}
-              placeholder="123 Main St, City, State"
-            />
-            {errors.address && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.address}</p>
-            )}
-          </div>
+          <TextareaField
+            label="Address"
+            name="address"
+            value={data.address}
+            onChange={(v) => setData('address', v)}
+            error={errors.address}
+            placeholder="123 Main St, City, State"
+            rows={2}
+          />
 
-          <div>
-            <label htmlFor="salary" className="mb-1.5 block text-sm font-medium">
-              Salary
-            </label>
-            <input
-              id="salary"
-              type="number"
-              step="0.01"
-              min="0"
-              value={data.salary}
-              onChange={(e) => setData('salary', e.target.value)}
-              className={inputClass}
-              placeholder="50000.00"
-            />
-            {errors.salary && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.salary}</p>
-            )}
-          </div>
+          <InputField
+            label="Salary"
+            name="salary"
+            type="number"
+            step="0.01"
+            min={0}
+            value={data.salary}
+            onChange={(v) => setData('salary', v)}
+            error={errors.salary}
+            placeholder="50000.00"
+          />
 
           <div className="grid gap-5 sm:grid-cols-2">
-            <div>
-              <label htmlFor="start_date" className="mb-1.5 block text-sm font-medium">
-                Start date
-              </label>
-              <input
-                id="start_date"
-                type="date"
-                value={data.start_date}
-                onChange={(e) => setData('start_date', e.target.value)}
-                className={inputClass}
-              />
-              {errors.start_date && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.start_date}</p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="end_date" className="mb-1.5 block text-sm font-medium">
-                End date <span className="text-[#5c5c59] dark:text-[#a1a19a]">(optional)</span>
-              </label>
-              <input
-                id="end_date"
-                type="date"
-                value={data.end_date}
-                onChange={(e) => setData('end_date', e.target.value)}
-                className={inputClass}
-              />
-              {errors.end_date && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.end_date}</p>
-              )}
-            </div>
+            <InputField
+              label="Start date"
+              name="start_date"
+              type="date"
+              value={data.start_date}
+              onChange={(v) => setData('start_date', v)}
+              error={errors.start_date}
+            />
+            <InputField
+              label="End date"
+              name="end_date"
+              type="date"
+              value={data.end_date}
+              onChange={(v) => setData('end_date', v)}
+              error={errors.end_date}
+              optional
+            />
           </div>
 
-          <div>
-            <label htmlFor="status" className="mb-1.5 block text-sm font-medium">
-              Status
-            </label>
-            <select
-              id="status"
-              value={data.status}
-              onChange={(e) => setData('status', e.target.value)}
-              className={inputClass}
-            >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-            {errors.status && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.status}</p>
-            )}
-          </div>
+          <SelectField
+            label="Status"
+            name="status"
+            value={data.status}
+            onChange={(v) => setData('status', v)}
+            options={STATUS_OPTIONS}
+            error={errors.status}
+          />
 
           <div className="flex gap-3 pt-4">
-            <button
-              type="submit"
-              disabled={processing}
-              className="rounded-lg bg-[#1a1a18] px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[#2a2a28] disabled:opacity-50 dark:bg-white dark:text-[#0c0c0b] dark:hover:bg-[#e8e8e6]"
-            >
+            <Button type="submit" disabled={processing}>
               {processing ? 'Saving…' : 'Save changes'}
-            </button>
-            <Link
-              href="/employees"
-              className="rounded-lg border border-[#d4d4d1] px-5 py-2.5 text-sm font-medium transition hover:bg-[#f5f5f3] dark:border-[#3a3a38] dark:hover:bg-[#1a1a18]"
-            >
-              Cancel
-            </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/employees">Cancel</Link>
+            </Button>
           </div>
         </form>
       </DashboardLayout>

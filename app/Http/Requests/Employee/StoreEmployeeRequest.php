@@ -2,13 +2,21 @@
 
 namespace App\Http\Requests\Employee;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class StoreEmployeeRequest extends FormRequest
 {
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function failedValidation(Validator $validator): never
+    {
+        throw (new ValidationException($validator))
+            ->redirectTo(route('employees.create'));
     }
 
     /**

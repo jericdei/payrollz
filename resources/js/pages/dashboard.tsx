@@ -12,7 +12,9 @@ export default function Dashboard() {
         />
       </Head>
       <DashboardLayout>
-        <h1 className="mb-8 text-2xl font-semibold tracking-tight">Dashboard</h1>
+        <h1 className="mb-8 text-2xl font-semibold tracking-tight">
+          Dashboard
+        </h1>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <Link
