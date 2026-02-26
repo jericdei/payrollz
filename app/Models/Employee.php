@@ -12,24 +12,15 @@ class Employee extends Model
     /** @use HasFactory<\Database\Factories\EmployeeFactory> */
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected $fillable = [
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'address',
-        'salary',
-        'start_date',
-        'end_date',
-        'status',
-    ];
+    protected $guarded = [];
 
     protected function casts(): array
     {
         return [
-            'salary' => 'decimal:2',
-            'start_date' => 'date',
-            'end_date' => 'date',
+            'basic_salary' => 'decimal:2',
+            'daily_rate' => 'decimal:2',
+            'hire_date' => 'date',
+            'birthdate' => 'date',
         ];
     }
 }

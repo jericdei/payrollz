@@ -18,21 +18,26 @@ class UpdateEmployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => [
+            'employee_number' => [
                 'required',
                 'string',
-                'email',
                 'max:255',
-                Rule::unique('employees', 'email')->ignore($this->route('employee')),
+                Rule::unique('employees', 'employee_number')->ignore($this->route('employee')),
             ],
-            'phone' => ['required', 'string', 'max:50'],
-            'address' => ['required', 'string', 'max:500'],
-            'salary' => ['required', 'numeric', 'min:0'],
-            'start_date' => ['required', 'date'],
-            'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
-            'status' => ['required', 'in:active,inactive'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['nullable', 'string', 'max:255'],
+            'birthdate' => ['nullable', 'date'],
+            'hire_date' => ['required', 'date'],
+            'employment_type' => ['required', 'in:regular,probationary,contractor'],
+            'salary_type' => ['required', 'in:monthly,daily,weekly,semi-monthly'],
+            'basic_salary' => ['nullable', 'numeric', 'min:0'],
+            'daily_rate' => ['nullable', 'numeric', 'min:0'],
+            'status' => ['required', 'in:active,resigned,terminated'],
+            'sss_number' => ['nullable', 'string', 'max:255'],
+            'philhealth_number' => ['nullable', 'string', 'max:255'],
+            'pagibig_number' => ['nullable', 'string', 'max:255'],
+            'tin_number' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -42,16 +47,13 @@ class UpdateEmployeeRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'employee_number.required' => 'Employee number is required.',
+            'employee_number.unique' => 'An employee with this number already exists.',
             'first_name.required' => 'First name is required.',
             'last_name.required' => 'Last name is required.',
-            'email.required' => 'Email is required.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'An employee with this email already exists.',
-            'phone.required' => 'Phone number is required.',
-            'address.required' => 'Address is required.',
-            'salary.required' => 'Salary is required.',
-            'salary.min' => 'Salary must be 0 or greater.',
-            'start_date.required' => 'Start date is required.',
+            'hire_date.required' => 'Hire date is required.',
+            'employment_type.required' => 'Employment type is required.',
+            'salary_type.required' => 'Salary type is required.',
             'status.required' => 'Status is required.',
         ];
     }

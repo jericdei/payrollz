@@ -13,15 +13,25 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->uuid('id')->primary();
+
+            $table->string('employee_number')->unique();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email')->unique();
-            $table->string('phone');
-            $table->string('address');
-            $table->decimal('salary', 10, 2);
-            $table->date('start_date');
-            $table->date('end_date')->nullable();
-            $table->enum('status', ['active', 'inactive']);
+            $table->string('middle_name')->nullable();
+            $table->date('birthdate')->nullable();
+            $table->date('hire_date');
+            $table->enum('employment_type', ['regular', 'probationary', 'contractor']);
+            $table->enum('salary_type', ['monthly', 'daily', 'weekly', 'semi-monthly']);
+            $table->decimal('basic_salary', 12, 2)->nullable();
+            $table->decimal('daily_rate', 12, 2)->nullable();
+            $table->enum('status', ['active', 'resigned', 'terminated'])->default('active');
+
+            // Government numbers
+            $table->string('sss_number')->nullable();
+            $table->string('philhealth_number')->nullable();
+            $table->string('pagibig_number')->nullable();
+            $table->string('tin_number')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });

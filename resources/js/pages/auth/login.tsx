@@ -1,4 +1,5 @@
 import { Head, Link, useForm } from '@inertiajs/react';
+import { ThemeToggle } from '@/components';
 import { Button } from '@/components/ui/button';
 import { InputField, CheckboxField } from '@/components/form';
 
@@ -32,9 +33,7 @@ export default function Login() {
             >
               Payrollz
             </Link>
-            <span className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground">
-              Login
-            </span>
+            <ThemeToggle />
           </div>
         </header>
 

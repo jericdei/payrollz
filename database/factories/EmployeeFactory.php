@@ -17,14 +17,21 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
+            'employee_number' => $this->faker->unique()->numerify('EMP####'),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
-            'address' => $this->faker->address(),
-            'salary' => $this->faker->randomFloat(2, 0, 20000),
-            'start_date' => $this->faker->date(),
-            'status' => $this->faker->randomElement(['active', 'inactive']),
+            'middle_name' => $this->faker->optional()->firstName(),
+            'birthdate' => $this->faker->optional()->date(),
+            'hire_date' => $this->faker->date(),
+            'employment_type' => $this->faker->randomElement(['regular', 'probationary', 'contractor']),
+            'salary_type' => $this->faker->randomElement(['monthly', 'daily', 'weekly', 'semi-monthly']),
+            'basic_salary' => $this->faker->optional()->randomFloat(2, 0, 20000),
+            'daily_rate' => $this->faker->optional()->randomFloat(2, 0, 1000),
+            'status' => $this->faker->randomElement(['active', 'resigned', 'terminated']),
+            'sss_number' => $this->faker->optional()->numerify('SSS####'),
+            'philhealth_number' => $this->faker->optional()->numerify('PHILHEALTH####'),
+            'pagibig_number' => $this->faker->optional()->numerify('PAGIBIG####'),
+            'tin_number' => $this->faker->optional()->numerify('TIN####'),
         ];
     }
 }

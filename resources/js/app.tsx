@@ -1,6 +1,7 @@
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
+import { ThemeProvider } from 'next-themes';
 import { FlashToaster } from '@/components/FlashToaster';
 import { Toaster } from '@/components/ui/sonner';
 import '../css/app.css';
@@ -30,10 +31,15 @@ createInertiaApp({
     const root = createRoot(el);
 
     root.render(
-      <>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        storageKey="theme"
+      >
         <App {...props} />
         <Toaster />
-      </>
+      </ThemeProvider>
     );
   },
   progress: {

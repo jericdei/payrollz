@@ -1,7 +1,7 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import type { ColumnDef } from '@tanstack/react-table';
+import { PlusIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { toast } from 'sonner';
 import { DataTable, PageHeader, Pagination } from '@/components';
 import DashboardLayout from '@/layouts/DashboardLayout';
 import { createEmployeeColumns } from '@/pages/employees/columns';
@@ -59,7 +59,8 @@ export default function Index() {
               href={create.url()}
               className="inline-flex shrink-0 items-center justify-center rounded-lg bg-[#1a1a18] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#2a2a28] dark:bg-white dark:text-[#0c0c0b] dark:hover:bg-[#e8e8e6]"
             >
-              Add employee
+              <PlusIcon className="size-4 mr-2" />
+              <span>Add employee</span>
             </Link>
           }
         />

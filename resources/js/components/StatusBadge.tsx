@@ -5,6 +5,8 @@ import { cn, capitalize } from '@/lib/utils';
 
 const statusVariants: Record<string, VariantProps<typeof badgeVariants>['variant']> = {
   active: 'success',
+  resigned: 'muted',
+  terminated: 'destructive',
   inactive: 'muted',
 };
 

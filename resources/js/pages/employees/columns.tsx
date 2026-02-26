@@ -7,19 +7,38 @@ import { edit } from '@/routes/employees';
 
 export interface Employee {
   id: string;
+  employee_number: string;
   first_name: string;
   last_name: string;
-  email: string;
-  phone: string;
+  middle_name: string | null;
+  employment_type: string;
+  salary_type: string;
+  basic_salary: string | null;
+  daily_rate: string | null;
   status: string;
-  salary: string;
-  start_date: string;
+  hire_date: string;
+}
+
+function formatCompensation(row: Employee): string {
+  if (row.salary_type === 'daily' && row.daily_rate) {
+    return `₱${Number(row.daily_rate).toLocaleString()}/day`;
+  }
+  if (row.basic_salary) {
+    return `₱${Number(row.basic_salary).toLocaleString()}`;
+  }
+  return '—';
 }
 
 const columnHelper = createColumnHelper<Employee>();
 
 export function createEmployeeColumns(onDelete: (employee: Employee) => void) {
   return [
+    columnHelper.accessor('employee_number', {
+      header: 'Employee #',
+      cell: (info) => (
+        <span className="font-mono text-sm">{info.getValue()}</span>
+      ),
+    }),
     columnHelper.accessor(
       (row) => `${row.first_name} ${row.last_name}`,
       {
@@ -30,25 +49,27 @@ export function createEmployeeColumns(onDelete: (employee: Employee) => void) {
         ),
       },
     ),
-    columnHelper.accessor('email', {
-      header: 'Email',
-      cell: (info) => (
-        <span className="text-[#5c5c59] dark:text-[#a1a19a]">
-          {info.getValue()}
-        </span>
-      ),
+    columnHelper.accessor((row) => row.employment_type, {
+      id: 'employment_type',
+      header: 'Type',
+      cell: (info) => {
+        const value = info.getValue();
+        const labels: Record<string, string> = {
+          regular: 'Regular',
+          probationary: 'Probationary',
+          contractor: 'Contractor',
+        };
+        return labels[value] ?? value;
+      },
     }),
-    columnHelper.accessor('phone', {
-      header: 'Phone',
+    columnHelper.display({
+      id: 'compensation',
+      header: 'Compensation',
+      cell: (info) => formatCompensation(info.row.original),
     }),
     columnHelper.accessor('status', {
       header: 'Status',
       cell: (info) => <StatusBadge status={info.getValue()} />,
-    }),
-    columnHelper.accessor('salary', {
-      header: 'Salary',
-      cell: (info) =>
-        `₱${Number(info.getValue()).toLocaleString()}`,
     }),
     columnHelper.display({
       id: 'actions',

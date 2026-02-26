@@ -1,4 +1,5 @@
 import { Head, Link, usePage } from '@inertiajs/react';
+import { ThemeToggle } from '@/components';
 
 export default function Welcome() {
   const { auth } = usePage().props as { auth: { user?: { name: string } } };
@@ -19,12 +20,15 @@ export default function Welcome() {
             <span className="text-xl font-semibold tracking-tight">
               Payrollz
             </span>
-            <Link
-              href={isLoggedIn ? '/dashboard' : '/login'}
-              className="rounded-lg border border-[#1a1a18] bg-[#1a1a18] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#2a2a28] dark:border-[#e8e8e6] dark:bg-[#e8e8e6] dark:text-[#0c0c0b] dark:hover:bg-white"
-            >
-              {isLoggedIn ? 'Dashboard' : 'Login'}
-            </Link>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <Link
+                href={isLoggedIn ? '/dashboard' : '/login'}
+                className="rounded-lg border border-[#1a1a18] bg-[#1a1a18] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#2a2a28] dark:border-[#e8e8e6] dark:bg-[#e8e8e6] dark:text-[#0c0c0b] dark:hover:bg-white"
+              >
+                {isLoggedIn ? 'Dashboard' : 'Login'}
+              </Link>
+            </div>
           </div>
         </header>
 
