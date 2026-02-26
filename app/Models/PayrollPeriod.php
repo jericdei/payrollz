@@ -11,4 +11,13 @@ class PayrollPeriod extends Model
 {
     /** @use HasFactory<\Database\Factories\PayrollPeriodFactory> */
     use HasFactory, HasUuids, SoftDeletes;
+
+    protected function casts(): array
+    {
+        return [
+            'date_start' => 'date',
+            'date_end' => 'date',
+            'pay_date' => 'date',
+        ];
+    }
 }

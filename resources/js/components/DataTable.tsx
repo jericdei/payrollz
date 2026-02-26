@@ -44,13 +44,14 @@ export function DataTable<TData>({
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-lg border border-[#e8e8e5] bg-white dark:border-[#272724] dark:bg-[#161615]',
+        'flex min-h-0 flex-1 flex-col overflow-hidden rounded-lg border border-[#e8e8e5] bg-white dark:border-[#272724] dark:bg-[#161615]',
         className,
       )}
     >
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-[#e8e8e5] dark:divide-[#272724]">
-          <thead>
+      <div className="min-h-0 flex-1 overflow-auto">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-[#e8e8e5] dark:divide-[#272724]">
+            <thead className="sticky top-0 z-10 bg-white dark:bg-[#161615]">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -109,10 +110,11 @@ export function DataTable<TData>({
               ))
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
 
-      {footer}
+      {footer ? <div className="shrink-0">{footer}</div> : null}
     </div>
   );
 }

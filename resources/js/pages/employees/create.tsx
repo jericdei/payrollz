@@ -41,7 +41,8 @@ export default function Create({ old: oldInput }: CreateProps) {
     <>
       <Head title="Add Employee — Payrollz" />
       <DashboardLayout>
-        <div className="mb-8 flex items-center gap-4">
+        <div className="min-h-0 flex-1 overflow-auto">
+          <div className="mb-8 flex items-center gap-4">
           <Link
             href={index.url()}
             className="text-sm text-muted-foreground hover:text-foreground"
@@ -195,7 +196,7 @@ export default function Create({ old: oldInput }: CreateProps) {
                       placeholder=""
                       optional
                     />
-                </div>
+                  </div>
                 </TabsContent>
               </Tabs>
 
@@ -211,6 +212,7 @@ export default function Create({ old: oldInput }: CreateProps) {
             </>
           )}
         </Form>
+        </div>
       </DashboardLayout>
     </>
   );

@@ -8,6 +8,9 @@ const statusVariants: Record<string, VariantProps<typeof badgeVariants>['variant
   resigned: 'muted',
   terminated: 'destructive',
   inactive: 'muted',
+  draft: 'muted',
+  processing: 'default',
+  finalized: 'success',
 };
 
 interface StatusBadgeProps {

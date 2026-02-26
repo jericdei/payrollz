@@ -78,7 +78,8 @@ export default function Edit({ employee }: { employee: Employee }) {
         title={`Edit ${employee.first_name} ${employee.last_name} — Payrollz`}
       />
       <DashboardLayout>
-        <div className="mb-8 flex items-center gap-4">
+        <div className="min-h-0 flex-1 overflow-auto">
+          <div className="mb-8 flex items-center gap-4">
           <Link
             href={index.url()}
             className="text-sm text-muted-foreground hover:text-foreground"
@@ -258,6 +259,7 @@ export default function Edit({ employee }: { employee: Employee }) {
             </Button>
           </div>
         </form>
+        </div>
       </DashboardLayout>
     </>
   );

@@ -30,8 +30,8 @@ export default function DashboardLayout({ children }: Props) {
   const { url } = usePage();
 
   return (
-    <div className="flex min-h-screen bg-[#FAFAF8] text-[#1a1a18] dark:bg-[#0c0c0b] dark:text-[#e8e8e6]">
-      <aside className="flex w-56 shrink-0 flex-col border-r border-[#e8e8e5] dark:border-[#272724]">
+    <div className="flex h-screen overflow-hidden bg-[#FAFAF8] text-[#1a1a18] dark:bg-[#0c0c0b] dark:text-[#e8e8e6]">
+      <aside className="flex h-screen w-56 shrink-0 flex-col border-r border-[#e8e8e5] dark:border-[#272724]">
         <Link
           href="/"
           className="border-b border-[#e8e8e5] px-6 py-4 dark:border-[#272724]"
@@ -66,7 +66,9 @@ export default function DashboardLayout({ children }: Props) {
           <LogoutButton />
         </div>
       </aside>
-      <main className="flex-1 overflow-auto px-6 py-12">{children}</main>
+      <main className="flex min-h-0 flex-1 flex-col overflow-hidden px-6 py-12">
+        {children}
+      </main>
     </div>
   );
 }
