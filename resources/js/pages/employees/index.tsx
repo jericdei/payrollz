@@ -1,9 +1,11 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import type { ColumnDef } from '@tanstack/react-table';
 import { PlusIcon } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { DataTable, PageHeader, Pagination } from '@/components';
+import { useIsNavigating } from '@/hooks/useIsNavigating';
 import DashboardLayout from '@/layouts/DashboardLayout';
+import { getEmployeesCache, setEmployeesCache } from '@/lib/employeesCache';
 import { createEmployeeColumns } from '@/pages/employees/columns';
 import type { Employee } from '@/pages/employees/columns';
 import { DeleteEmployeeDialog } from '@/pages/employees/components/DeleteEmployeeDialog';
@@ -23,9 +25,19 @@ export default function Index() {
     employees: PaginatedEmployees;
   };
 
+  const { isNavigating, targetUrl } = useIsNavigating('/employees');
   const [employeeToDelete, setEmployeeToDelete] = useState<Employee | null>(
     null,
   );
+
+  useEffect(() => {
+    setEmployeesCache(window.location.href, employees);
+  }, [employees]);
+
+  const cachedEmployees =
+    isNavigating && targetUrl ? getEmployeesCache(targetUrl) : null;
+  const displayEmployees = cachedEmployees ?? employees;
+  const showSkeleton = isNavigating && !cachedEmployees;
 
   const columns = useMemo(
     () => createEmployeeColumns(setEmployeeToDelete),
@@ -40,13 +52,13 @@ export default function Index() {
   };
 
   const showingFrom =
-    employees.data.length === 0
+    displayEmployees.data.length === 0
       ? 0
-      : (employees.current_page - 1) * employees.per_page + 1;
+      : (displayEmployees.current_page - 1) * displayEmployees.per_page + 1;
 
   const showingTo = Math.min(
-    employees.current_page * employees.per_page,
-    employees.total,
+    displayEmployees.current_page * displayEmployees.per_page,
+    displayEmployees.total,
   );
 
   return (
@@ -70,8 +82,10 @@ export default function Index() {
           <div className="flex min-h-0 flex-1 flex-col">
             <DataTable<Employee>
               columns={columns as ColumnDef<Employee, unknown>[]}
-              data={employees.data}
+              data={displayEmployees.data}
               getRowId={(row) => row.id}
+              isLoading={showSkeleton}
+              skeletonRowCount={10}
               emptyState={
                 <>
                   No employees yet.{' '}
@@ -84,12 +98,12 @@ export default function Index() {
                 </>
               }
               footer={
-                employees.last_page > 1 ? (
+                displayEmployees.last_page > 1 ? (
                   <Pagination
-                    links={employees.links}
+                    links={displayEmployees.links}
                     showingFrom={showingFrom}
                     showingTo={showingTo}
-                    total={employees.total}
+                    total={displayEmployees.total}
                   />
                 ) : undefined
               }

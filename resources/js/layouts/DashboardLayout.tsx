@@ -45,6 +45,7 @@ export default function DashboardLayout({ children }: Props) {
               <Link
                 key={item.label}
                 href={item.href}
+                prefetch={item.href.startsWith('/employees')}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${isActive
                   ? 'bg-[#eef2ed] text-[#2d5a27] dark:bg-[#1a2418] dark:text-[#6b9c64]'
                   : 'text-[#5c5c59] hover:bg-[#f5f5f3] hover:text-[#1a1a18] dark:text-[#a1a19a] dark:hover:bg-[#1a1a18] dark:hover:text-white'

@@ -9,7 +9,7 @@ type InputFieldBase = Omit<React.ComponentProps<typeof Input>, 'id'> & {
   optional?: boolean;
 };
 
-type InputFieldControlled = InputFieldBase & {
+type InputFieldControlled = Omit<InputFieldBase, 'onChange'> & {
   value: string;
   onChange: (value: string) => void;
   defaultValue?: never;

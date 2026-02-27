@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from 'next-themes';
 import { FlashToaster } from '@/components/FlashToaster';
 import { Toaster } from '@/components/ui/sonner';
+import { initEmployeesCacheInvalidation } from '@/lib/employeesCache';
 import '../css/app.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
@@ -28,6 +29,8 @@ createInertiaApp({
     };
   },
   setup({ el, App, props }) {
+    initEmployeesCacheInvalidation();
+
     const root = createRoot(el);
 
     root.render(

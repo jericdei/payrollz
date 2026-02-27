@@ -45,6 +45,7 @@ export default function Create({ old: oldInput }: CreateProps) {
           <div className="mb-8 flex items-center gap-4">
           <Link
             href={index.url()}
+            prefetch
             className="text-sm text-muted-foreground hover:text-foreground"
           >
             ← Employees

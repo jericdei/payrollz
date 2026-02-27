@@ -4,6 +4,7 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 import type { ColumnDef } from '@tanstack/react-table';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
 const thClass =
@@ -21,6 +22,10 @@ interface DataTableProps<TData> {
   footer?: React.ReactNode;
   getRowId?: (row: TData) => string;
   className?: string;
+  /** When true, shows skeleton rows in tbody while keeping real header and footer. */
+  isLoading?: boolean;
+  /** Number of skeleton rows when isLoading. Default 10. */
+  skeletonRowCount?: number;
 }
 
 export function DataTable<TData>({
@@ -30,6 +35,8 @@ export function DataTable<TData>({
   footer,
   getRowId,
   className,
+  isLoading = false,
+  skeletonRowCount = 10,
 }: DataTableProps<TData>) {
   // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Table uses interior mutability; see https://react.dev/reference/eslint-plugin-react-hooks/lints/incompatible-library
   const table = useReactTable({
@@ -75,7 +82,33 @@ export function DataTable<TData>({
             ))}
           </thead>
           <tbody className="divide-y divide-[#e8e8e5] dark:divide-[#272724]">
-            {rowModel.rows.length === 0 && emptyState ? (
+            {isLoading ? (
+              Array.from({ length: skeletonRowCount }).map((_, rowIndex) => (
+                <tr key={rowIndex}>
+                  {table.getHeaderGroups()[0].headers.map((header, colIndex) => {
+                    const meta = header.column.columnDef.meta as ColumnMeta;
+                    return (
+                      <td
+                        key={header.id}
+                        className={cn(
+                          'whitespace-nowrap px-6 py-4',
+                          meta?.align === 'right' && 'text-right',
+                        )}
+                      >
+                        <Skeleton
+                          className={cn(
+                            'h-4',
+                            colIndex === 0 && 'w-24',
+                            colIndex === 1 && 'w-32',
+                            meta?.align === 'right' && 'ms-auto w-20',
+                          )}
+                        />
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))
+            ) : rowModel.rows.length === 0 && emptyState ? (
               <tr>
                 <td
                   colSpan={columns.length}
@@ -95,8 +128,8 @@ export function DataTable<TData>({
                       key={cell.id}
                       className={cn(
                         'whitespace-nowrap px-6 py-4 text-sm',
-                        (cell.column.columnDef.meta as ColumnMeta)?.align === 'right' &&
-                        'text-right',
+                        (cell.column.columnDef.meta as ColumnMeta)?.align ===
+                          'right' && 'text-right',
                         (cell.column.columnDef.meta as ColumnMeta)?.className,
                       )}
                     >

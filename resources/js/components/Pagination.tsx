@@ -49,6 +49,7 @@ export function Pagination({
             <Link
               key={i}
               href={link.url}
+              prefetch
               className={cn(
                 'rounded px-3 py-1 text-sm',
                 link.active
